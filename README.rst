@@ -7,6 +7,11 @@ This project aims to perform multi-stations weather forecasting using recurrent 
 -----
 Some plots of the actual vs prediction of the 2 best models : the Conv+LSTM and MS-Conv+LSTM.
 
+.. figure:: Paris_model3_temp.svg
+
+
+.. figure:: Luxembourg_model1_ws.svg
+
 💻 Installation
 -----
 
