@@ -48,14 +48,14 @@ To test the pretrained best configurations (Conv+LSTM and MS-Conv+LSTM):
 .. code::
 
     usage: Test.py [-h] [-m MODEL {conv_plus_lstm,ms_conv_plus_lstm}] [-s STEPSAHEAD {2,4,6}]
-                   [-f FEATURE {wind_speed,temperature}]
+                   [-f FEATURE {wind_speed,avg_temperature}]
     
     list of arguments:
     -h, --help         show this help message and exit
     -m, --model        Please choose the type of model you want to train (conv_plus_lstm or ms_conv_plus_lstm)
     -s, --stepsahead   Please choose the number of steps ahead (2, 4, or 6), by default 2
-    -f, --feature      Please choose the weather feature you want to forecast (wind_speed or temperature),
-                       by default temperature
+    -f, --feature      Please choose the weather feature you want to forecast (wind_speed or avg_temperature),
+                       by default avg_temperature
                            
 
 📂 Data
