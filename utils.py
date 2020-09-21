@@ -449,7 +449,7 @@ def get_folders_started(model_type):
     create_info_training_file(experiment_number,model_type)
     return base_filenames,experiment_number
     
-def get_rescaled_data(scaling_infos,feature_name,city_names,y_test,y_predicted,y_prediction_training,y_train):
+def get_rescaled_data(scaling_infos,feature_name,city_names,y_test,y_predicted,y_train):
     target_feature = feature_to_index[feature_name]
     predictions_per_city = {}
     for city_name in city_names:        
@@ -466,13 +466,10 @@ def get_rescaled_data(scaling_infos,feature_name,city_names,y_test,y_predicted,y
         
         y_predicted_rescaled = y_predicted - target_min
         y_predicted_rescaled /= target_scale
-        
-        y_predicted_training_rescaled = y_prediction_training - target_min
-        y_predicted_training_rescaled /= target_scale
-        
+                
         y_train_rescaled = y_train - target_min
         y_train_rescaled /= target_scale
-        predictions_per_city[target_city] = (y_test_rescaled,y_predicted_rescaled,y_train_rescaled,y_predicted_training_rescaled)
+        predictions_per_city[target_city] = (y_test_rescaled,y_predicted_rescaled,y_train_rescaled)
     return predictions_per_city
 
 def plot_actual_vs_prediction(target_cities_name,target_feature_name,days_ahead,predictions_per_city_dict,model_type,experiment_number,base_filenames):
@@ -495,4 +492,10 @@ def plot_actual_vs_prediction(target_cities_name,target_feature_name,days_ahead,
         axs[i].legend(bbox_to_anchor=(1.05, 1.0), loc="upper left")
             
     output_filename2 = "ExperimentsWeather/"+model_type+"/Experiment"+str(experiment_number)+"/"+base_filenames+"_"+alias_string+"_"+target_feature_name+"_"+str(days_ahead)+"_actual_vs_prediction.png"
-    fig.savefig(output_filename2,dpi=100)
+    try:
+        fig.savefig(output_filename2,dpi=100)
+    except Exception as e:
+        print("couldn't save in the experiment folder, saving in the current folder")
+        print("reason: ",e)
+        filename_output = alias_string+"_"+target_feature_name+"_"+str(days_ahead)+"_actual_vs_prediction.png"
+        fig.savefig(filename_output,dpi=100)

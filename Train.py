@@ -2,9 +2,15 @@ import utils
 from tensorflow.keras.optimizers import Adam
 import time
 from sklearn.metrics import mean_squared_error,mean_absolute_error
-from models_multi_city import get_cascade_model,get_conv_lstm_model,get_new_model1,get_new_model4
+from models import get_conv_plus_lstm,get_convlstm_model,get_ms_conv_plus_lstm_model,get_ms_convlstm
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('-e','--epochs',type=int,help="Please choose the number of \
+                    epochs, by default 1 epoch", default=1)
+                    
+args = parser.parse_args()
 
-num_epochs = 2
+num_epochs = args.epochs
 learning_rate = 1e-4
 optimizer = Adam(learning_rate=learning_rate)
 params = 0
@@ -15,25 +21,25 @@ alias_cities = []
 for item in cities:
     alias_cities.append("".join(char for char in item[0:3]))
 alias_string = "_".join(elem for elem in alias_cities) 
-models = ["conv_plus_lstm","convlstm","ms_conv_plus_lstm","ms_convlstm"]
+model_list = ["conv_plus_lstm","convlstm","ms_conv_plus_lstm","ms_convlstm"]
 features = ["wind_speed(mph)","avg_temp(F)"]
 steps_ahead_list=[2,4,6]
-for model_type in models:
+for model_type in model_list:
     for feature_type in features:
         for step_ahead in steps_ahead_list:
             print("-"*6+" Training configuration: {},{},{},{} ".format(comma_separated_cities,model_type,feature_type,step_ahead)+"-"*6)
             if model_type == "conv_plus_lstm":
                 x_train,y_train,x_valid,y_valid,x_test,y_test,scaling_infos = utils.get_dataset_model1(step_ahead,feature_type,cities)
-                model = get_new_model1()
+                model = get_conv_plus_lstm()
             elif model_type == "convlstm":
                 x_train,y_train,x_valid,y_valid,x_test,y_test,scaling_infos = utils.get_dataset_model2(step_ahead,feature_type,cities)
-                model = get_conv_lstm_model()
+                model = get_convlstm_model()
             elif model_type == "ms_conv_plus_lstm":
                 x_train,y_train,x_valid,y_valid,x_test,y_test,scaling_infos = utils.get_dataset_model3(step_ahead,feature_type,cities)
-                model = get_cascade_model()
+                model = get_ms_conv_plus_lstm_model()
             elif model_type == "ms_convlstm":
                 x_train,y_train,x_valid,y_valid,x_test,y_test,scaling_infos = utils.get_dataset_model4(step_ahead,feature_type,cities)
-                model = get_new_model4()
+                model = get_ms_convlstm()
             base_filenames,experiment_number = utils.get_folders_started(model_type)
             for layer in model.layers:
                 params_layer = layer.count_params()
@@ -47,7 +53,6 @@ for model_type in models:
             print("Timespan training: {}".format(timespan))
             
             y_predicted = model.predict(x_test)
-            y_prediction_training = model.predict(x_train)
             
             test_mse = mean_squared_error(y_test,y_predicted,multioutput='raw_values')
             mses = []
@@ -62,7 +67,7 @@ for model_type in models:
                 print("For city {}, test MAE: {}".format(cities[i],test_mae[i]))
                 maes.append(test_mae[i])
             
-            predictions_per_city = utils.get_rescaled_data(scaling_infos,feature_type,cities,y_test,y_predicted,y_prediction_training,y_train)
+            predictions_per_city = utils.get_rescaled_data(scaling_infos,feature_type,cities,y_test,y_predicted,y_train)
             
             utils.plot_actual_vs_prediction(cities,feature_type,step_ahead,predictions_per_city,model_type,experiment_number,base_filenames)
                             
@@ -89,7 +94,7 @@ for model_type in models:
             with open(info_file, "a+") as file:
                 for i in range(len(cities)):                    
                     file.write("{} test MSE: {}\n".format(cities[i],mses[i]))
-                    file.write("{} test MAE: {}\n".format(cities[i],mses[i]))
+                    file.write("{} test MAE: {}\n".format(cities[i],maes[i]))
                     file.write("{} test MSE rescaled: {}\n".format(cities[i],mses_rescaled[i]))
                     file.write("{} test MAE rescaled: {}\n".format(cities[i],maes_rescaled[i]))
                 file.write("Model number of parameters: {:,}\n".format(params))
