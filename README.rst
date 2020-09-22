@@ -73,7 +73,7 @@ siamak.mehrkanoon@maastrichtuniversity.nl
 -----
 
 - The scripts contain the models, the data preprocessing, as well as the training and testing files.
-- Additionaly, you can find pretrained models in the "saved_models" folders, for the 2 weather features, and the 3 steps ahead..
+- Additionaly, you can find pretrained models in the "saved_models" folders, for the 2 weather features, and the 3 steps ahead.
 
 🔗 Citation
 -----
@@ -83,7 +83,7 @@ If you decide to cite our project in your paper or use our data, please use the 
 .. code:: bibtex
 
     @misc{alaoui2020towards,
-        title={Towards deep multi-stations weather forecasting: explanable recurrent convolutional neural networks},
+        title={Deep multi-stations weather forecasting: explanable recurrent convolutional neural networks},
         author={Ismail Alaoui Abdellaoui and Siamak Mehrkanoon},
         year={2020},
         eprint={},
