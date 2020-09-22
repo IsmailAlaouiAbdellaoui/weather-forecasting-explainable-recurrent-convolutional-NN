@@ -63,7 +63,7 @@ To test the pretrained best configurations (Conv+LSTM and MS-Conv+LSTM):
 
 The preprocessed data for each city is contained in the data directory.
 
-In order to get the original, non-normalized data with discrete values, please write to both of the following addresses:
+In order to get the original data with discrete values, please write to both of the following addresses:
 
 i.alaouiabdellaoui@student.maastrichtuniversity.nl
 
