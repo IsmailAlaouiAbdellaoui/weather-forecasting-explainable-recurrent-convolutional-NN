@@ -73,7 +73,7 @@ siamak.mehrkanoon@maastrichtuniversity.nl
 -----
 
 - The scripts contain the models, the data preprocessing, as well as the training and testing files.
-- Additionaly, you can find pretrained models in the "saved_models" folders, for the 2 weather features, and the 3 steps ahead.
+- Additionaly, you can find pretrained models in the "saved_models" folders, for the 2 weather features, and the 3 steps ahead..
 
 🔗 Citation
 -----
