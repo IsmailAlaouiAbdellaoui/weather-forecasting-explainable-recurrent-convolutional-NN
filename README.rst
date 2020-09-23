@@ -13,6 +13,15 @@ Some plots of the actual vs prediction of the 2 best models : the Conv+LSTM and 
 
 🔎 Explainability
 
+We show here the visualization of the explainability techniques used to determine the most important features and cities for the MS-Conv+LSTM (1st figure) and  Conv+LSTM (2nd figure) models. These figures are obtained after performing spatial occlusion analysis.
+
+.. figure:: important_features_model3_occlusion.svg
+    :width: 600
+    :align: center
+
+.. figure:: important_cities_model1_occlusion.svg
+    :width: 600
+    :align: center
 
 
 💻 Installation
