@@ -9,8 +9,11 @@ Some plots of the actual vs prediction of the 2 best models : the Conv+LSTM and 
 
 .. figure:: Paris_model3_temp.svg
 
-
 .. figure:: Luxembourg_model1_ws.svg
+
+🔎 Explainability
+
+
 
 💻 Installation
 -----
