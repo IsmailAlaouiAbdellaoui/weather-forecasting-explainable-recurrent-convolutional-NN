@@ -1,7 +1,7 @@
 ☀️ Deep multi-stations weather forecasting: explainable recurrent convolutional neural networks
 ========
 
-This project aims to perform multi-stations weather forecasting using recurrent convolutional neural networks accross cities from Europe. Explanability techniques have also been used to detect important cities and weather features. The original paper can be found at:
+This project aims to perform multi-stations weather forecasting using recurrent convolutional neural networks accross cities from Europe. Explainability techniques have also been used to detect important cities and weather features. The original paper can be found at:
 
 📊 Results
 -----
