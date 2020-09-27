@@ -66,8 +66,7 @@ class MSConvPlusLSTM:
     def __init__(self, window_size,conv1_filters,conv2_filters,conv3_filters,
                  conv1_kernel_shape,conv2_kernel_shape,conv3_kernel_shape,
                  padding1,padding2,padding3,conv1_activation,conv2_activation,
-                 conv3_activation,dense_nodes,dense_activation,
-                 lstm_nodes,dense3_activation,depth):
+                 conv3_activation,dense_nodes,lstm_nodes,depth):
         
         self.number_target_cities = 6
         self.number_features = 18
