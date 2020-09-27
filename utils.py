@@ -474,13 +474,13 @@ def get_rescaled_data(scaling_infos,feature_name,city_names,y_test,y_predicted,y
 
 def plot_actual_vs_prediction(target_cities_name,target_feature_name,days_ahead,predictions_per_city_dict,model_type,experiment_number,base_filenames):
     alias_cities = []
+    plt.style.use('seaborn')
     for city in target_cities_name:
         alias_cities.append("".join(char for char in city[0:3]))
     alias_string = "_".join(elem for elem in alias_cities)    
     rows = 2#hardcoded
     cols = 3#hardcoded
     fig, axs = plt.subplots(rows,cols, figsize=(40, 21))
-    fig.subplots_adjust(left=0, bottom=0.5, right=0.5, top=1.5, wspace=0, hspace=None)
     axs = axs.ravel()
     for i in range(rows*cols):
         target_city = city_to_index[target_cities_name[i]]
@@ -489,7 +489,8 @@ def plot_actual_vs_prediction(target_cities_name,target_feature_name,days_ahead,
         axs[i].set_title(target_cities_name[i]+","+target_feature_name)
         axs[i].plot(y_test_rescaled[:,i], label='Original, {} days ahead'.format(days_ahead))
         axs[i].plot(y_predicted_rescaled[:,i], label='Predicted, {} days ahead'.format(days_ahead))
-        axs[i].legend(bbox_to_anchor=(1.05, 1.0), loc="upper left")
+        if i == 2 or i == 5:
+            axs[i].legend(bbox_to_anchor=(1.05, 1.0), loc="upper left")
             
     output_filename2 = "ExperimentsWeather/"+model_type+"/Experiment"+str(experiment_number)+"/"+base_filenames+"_"+alias_string+"_"+target_feature_name+"_"+str(days_ahead)+"_actual_vs_prediction.png"
     try:

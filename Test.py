@@ -17,23 +17,25 @@ args = parser.parse_args()
                     
 cities = ["paris","london","luxembourg","brussels","frankfurt","rotterdam"]
 
+if args.feature == "wind_speed":
+    feature_type = "wind_speed(mph)"
+elif args.feature == "avg_temperature":
+    feature_type = "avg_temp(F)"
+
 if args.model == "conv_plus_lstm":            
-    x_train,y_train,x_valid,y_valid,x_test,y_test,scaling_infos = utils.get_dataset_model1(args.stepsahead,args.feature,cities)
+    x_train,y_train,x_valid,y_valid,x_test,y_test,scaling_infos = utils.get_dataset_model1(args.stepsahead,feature_type,cities)
     model = get_conv_plus_lstm()
 elif args.model == "ms_conv_plus_lstm":
-    x_train,y_train,x_valid,y_valid,x_test,y_test,scaling_infos = utils.get_dataset_model3(args.stepsahead,args.feature,cities)
+    x_train,y_train,x_valid,y_valid,x_test,y_test,scaling_infos = utils.get_dataset_model3(args.stepsahead,feature_type,cities)
     model = get_ms_conv_plus_lstm_model()
     
-model.load_weights("/saved_models/{}/{}/{}/checkpoint.hdf5".format(args.model,args.feature,args.stepsahead))
+model.load_weights("saved_models/{}/{}/{}/checkpoint.hdf5".format(args.model,args.feature,args.stepsahead))
 y_predicted = model.predict(x_test)
 test_mse = mean_squared_error(y_test,y_predicted,multioutput='raw_values')
 for i in range(len(cities)):
     print("For city {}, test MSE: {}".format(cities[i],test_mse[i]))
     
-if args.feature == "wind_speed":
-    feature_type = "wind_speed(mph)"
-elif args.feature == "avg_temperature":
-    feature_type = "avg_temp(F)"
+
 predictions_per_city = utils.get_rescaled_data(scaling_infos,feature_type,cities,y_test,y_predicted,y_train)
             
 utils.plot_actual_vs_prediction(cities,feature_type,args.stepsahead,predictions_per_city,args.model,0,"")
