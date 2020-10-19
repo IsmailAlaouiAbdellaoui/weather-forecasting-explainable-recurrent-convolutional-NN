@@ -94,11 +94,9 @@ If you decide to cite our project in your paper or use our data, please use the 
 
 .. code:: bibtex
 
-    @misc{abdellaoui2020deep,
-        title={Deep multi-stations weather forecasting: explainable recurrent convolutional neural networks},
-        author={Ismail Alaoui Abdellaoui and Siamak Mehrkanoon},
-        year={2020},
-        eprint={2009.11239},
-        archivePrefix={arXiv},
-        primaryClass={cs.LG}
-    }
+    @article{abdellaoui2020deep,
+  title={Deep multi-stations weather forecasting: explainable recurrent convolutional neural networks},
+  author={Abdellaoui, Ismail Alaoui and Mehrkanoon, Siamak},
+  journal={arXiv preprint arXiv:2009.11239},
+  year={2020}
+}
