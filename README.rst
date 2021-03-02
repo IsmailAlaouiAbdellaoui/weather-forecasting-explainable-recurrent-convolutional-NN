@@ -7,19 +7,19 @@ This project aims to perform multi-stations weather forecasting using recurrent 
 -----
 Some plots of the actual vs prediction of the 2 best models : the Conv+LSTM and MS-Conv+LSTM.
 
-.. figure:: Paris_model3_temp.svg
+.. figure:: Brussels_unistream_att_temp.jpg
 
-.. figure:: Luxembourg_model1_ws.svg
+.. figure:: Paris_multistream_att_ws.jpg
 
 🔎 Explainability
 
 We show here the visualization of the explainability techniques used to determine the most important features and cities for the MS-Conv+LSTM (1st figure) and  Conv+LSTM (2nd figure) models. These figures are obtained after performing spatial occlusion analysis.
 
-.. figure:: important_features_model3_occlusion.svg
+.. figure:: important_cities_unistream_att_temp.jpg
     :width: 600
     :align: center
 
-.. figure:: important_cities_model1_occlusion.svg
+.. figure:: important_features_unistream_att_temp.jpg
     :width: 600
     :align: center
 
@@ -49,9 +49,9 @@ To train the 4 models for the 2 weather features and the 6 steps ahead, and for 
     -h, --help             show this help message and exit
     -e, --epochs           Please choose the number of epochs, by default 1 epoch
     
-Note 1: If you want to train for a specific model/weather feature/step ahead, please change the first lines of the Train.py file (18-20)
+Note 1: If you want to train for a specific model/weather feature/step ahead, please change the first lines of the Train.py file (24-26)
     
-To test the pretrained best configurations (Conv+LSTM and MS-Conv+LSTM):
+To test the pretrained best configurations (att_unistream and att_multistream):
 
 .. code:: bash
     
@@ -59,12 +59,12 @@ To test the pretrained best configurations (Conv+LSTM and MS-Conv+LSTM):
     
 .. code::
 
-    usage: Test.py [-h] [-m MODEL {conv_plus_lstm,ms_conv_plus_lstm}] [-s STEPSAHEAD {2,4,6}]
+    usage: Test.py [-h] [-m MODEL {att_unistream,att_multistream}] [-s STEPSAHEAD {2,4,6}]
                    [-f FEATURE {wind_speed,avg_temperature}]
     
     list of arguments:
     -h, --help         show this help message and exit
-    -m, --model        Please choose the type of model you want to train (conv_plus_lstm or ms_conv_plus_lstm)
+    -m, --model        Please choose the type of model you want to train (att_unistream or att_multistream)
     -s, --stepsahead   Please choose the number of steps ahead (2, 4, or 6), by default 2
     -f, --feature      Please choose the weather feature you want to forecast (wind_speed or avg_temperature),
                        by default avg_temperature

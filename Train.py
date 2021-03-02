@@ -2,7 +2,7 @@ import utils
 from tensorflow.keras.optimizers import Adam
 import time
 from sklearn.metrics import mean_squared_error,mean_absolute_error
-from models import get_conv_plus_lstm,get_convlstm_model,get_ms_conv_plus_lstm_model,get_ms_convlstm
+from models import get_att_unistream_model,att_multistream
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-e','--epochs',type=int,help="Please choose the number of \
@@ -21,25 +21,19 @@ alias_cities = []
 for item in cities:
     alias_cities.append("".join(char for char in item[0:3]))
 alias_string = "_".join(elem for elem in alias_cities) 
-model_list = ["conv_plus_lstm","convlstm","ms_conv_plus_lstm","ms_convlstm"]
+model_list = ["att_unistream","att_multistream"]
 features = ["wind_speed(mph)","avg_temp(F)"]
 steps_ahead_list=[2,4,6]
 for model_type in model_list:
     for feature_type in features:
         for step_ahead in steps_ahead_list:
             print("-"*6+" Training configuration: {},{},{},{} ".format(comma_separated_cities,model_type,feature_type,step_ahead)+"-"*6)
-            if model_type == "conv_plus_lstm":
-                x_train,y_train,x_valid,y_valid,x_test,y_test,scaling_infos = utils.get_dataset_model1(step_ahead,feature_type,cities)
-                model = get_conv_plus_lstm()
-            elif model_type == "convlstm":
+            if model_type == "att_unistream":
                 x_train,y_train,x_valid,y_valid,x_test,y_test,scaling_infos = utils.get_dataset_model2(step_ahead,feature_type,cities)
-                model = get_convlstm_model()
-            elif model_type == "ms_conv_plus_lstm":
-                x_train,y_train,x_valid,y_valid,x_test,y_test,scaling_infos = utils.get_dataset_model3(step_ahead,feature_type,cities)
-                model = get_ms_conv_plus_lstm_model()
-            elif model_type == "ms_convlstm":
+                model = get_att_unistream_model()
+            elif model_type == "att_multistream":
                 x_train,y_train,x_valid,y_valid,x_test,y_test,scaling_infos = utils.get_dataset_model4(step_ahead,feature_type,cities)
-                model = get_ms_convlstm()
+                model = att_multistream()
             base_filenames,experiment_number = utils.get_folders_started(model_type)
             for layer in model.layers:
                 params_layer = layer.count_params()

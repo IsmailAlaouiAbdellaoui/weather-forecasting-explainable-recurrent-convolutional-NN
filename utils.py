@@ -270,13 +270,33 @@ def scale_matrix(matrix_for_scaling):
     scaling_infos = []
     number_cities = 18
     number_features = 18
-    scaled_matrix = np.zeros(matrix_for_scaling.shape)    
+    training_part = int(0.8*matrix_for_scaling.shape[0]) + int(0.1*matrix_for_scaling.shape[0]) #train + valid
+    test_part = matrix_for_scaling.shape[0] - training_part
+
+    scaled_matrix = np.zeros(matrix_for_scaling.shape)  
+    scaled_training_matrix = np.zeros((training_part,number_cities*number_features))
+    scaled_testing_matrix = np.zeros((test_part,number_cities*number_features))
     for i in range(number_cities*number_features):
-        s = MinMaxScaler(feature_range=(0, 1))
-        temp = s.fit_transform(matrix_for_scaling[:,i].reshape(-1,1))
-        temp = np.squeeze(temp,-1)
-        scaled_matrix[:,i] = temp
-        scaling_infos.append(s)        
+
+
+        s2 = MinMaxScaler(feature_range=(0, 1))
+        temp2 = s2.fit_transform(matrix_for_scaling[0:training_part,i].reshape(-1,1))
+        temp2 = np.squeeze(temp2,-1)
+        scaled_training_matrix[:,i] = temp2
+        
+        scaling_infos.append(s2)     
+        
+    for i in range(number_cities*number_features):
+        min_col = scaling_infos[i].__dict__["data_min_"]
+        max_col = scaling_infos[i].__dict__["data_max_"]
+        rescaled_test_col = (matrix_for_scaling[training_part:,i] - min_col ) / (max_col - min_col)
+        scaled_testing_matrix[:,i] = rescaled_test_col
+        
+    scaled_matrix[0:training_part] = scaled_training_matrix
+    scaled_matrix[training_part:] = scaled_testing_matrix
+    
+    assert scaled_matrix.shape[0] == scaled_training_matrix.shape[0] + scaled_testing_matrix.shape[0]
+        
     return scaled_matrix,scaling_infos
 
 
